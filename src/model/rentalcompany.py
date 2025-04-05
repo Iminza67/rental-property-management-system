@@ -1,9 +1,8 @@
 from src.model.property import Property
 
-class RentalCompany():
-
+class RentalCompany:
     def __init__(self, company_name: str):
-        self.company_name = company_name
+        self.company_name: str = company_name
         self.properties_list = []
         self.contracts = []
 
@@ -29,14 +28,14 @@ class RentalCompany():
 
     def analyze_occupancy(self):
         if not self.properties_list:
-            print("No properties available for occupancy analysis.")
+            return "No properties available for occupancy analysis."
         else:
             occupied_properties = 0
             for property in self.properties_list:
                 if property.get_status() == "Occupied":
                     occupied_properties += 1
             occupancy_rate = occupied_properties / len(self.properties_list) * 100
-            print(f"Occupancy Rate: {occupancy_rate:.2f}%")
+            return f"Occupancy Rate: {occupancy_rate:.2f}%"
                 
     # Your code goes here.
 

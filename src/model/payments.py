@@ -24,7 +24,7 @@ class LatePayment(Payment):
     def __init__(self, lease: 'LeaseAgreement', amount: float, due_date: str, days_late: float):
         super().__init__(lease, amount, due_date)
         self.days_late = days_late
-        self.late_fee = self._calculate_late_fee()
+        self.late_fee = self._calculate_penalty()
         self.total_amount = self.amount + self.late_fee
         self.status = "Late"
 
@@ -58,7 +58,7 @@ class PaymentHistory:
         end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
         return sum(
             t.amount if not isinstance(t, LatePayment) else t.total_amount
-            for t in self.transactions
+            for t in self.payments
             if t.status == "Paid" and start_date <= t.payment_date <= end_date
         )
 

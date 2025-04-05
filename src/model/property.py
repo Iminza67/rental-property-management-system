@@ -1,66 +1,67 @@
 from datetime import datetime
-from src.model.payments import LeaseAgreement
-from src.model.rentalcompany import RentalCompany
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.model.payments import LeaseAgreement
 
-class Property(RentalCompany):
-    def __init__(self, property_id: str, address: str,size: float, price: float):
+class Property:
+    def __init__(self, property_id: str, address: str, size: float, price: float, company_name: str):
+        super().__init__(company_name)
         self.property_id = property_id
         self.address = address
         self.size = size
         self.facilities: list[str] = []
         self.price = price
-        self.history: list[LeaseAgreement] = []
+        self.history: list['LeaseAgreement'] = []
         self.is_occupied: bool = False
+        self.current_lease = None
 
     def __repr__(self):
-        return f"Property(name={self.name}, value={self.value})"
+        return f"Property(name={self.property_id}, value={self.price})"
     def get_status(self):
         return "Occupied" if self.is_occupied else "Available"
     def calculate_cost(self):
         return self.price 
     def add_lease(self, lease: 'LeaseAgreement') -> None:
         if self.current_lease:
-            self.lease_history.append(self.current_lease)
+            self.history.append(self.current_lease)
         self.current_lease = lease
-        self.set_occupancy(True)
-    
+        self.is_occupied = True
+
     def terminate_lease(self) -> None:
         if self.current_lease:
             self.current_lease.end_date = datetime.now()
-            self.lease_history.append(self.current_lease)
+            self.history.append(self.current_lease)
             self.current_lease = None
-            self.set_occupancy(False)
-    
+            self.is_occupied = False
+
 class Land(Property):
-    def __init__(self, zoning_type: str, buildable_area: float):
-        super().__init__(property_id="", size=0.0, address="", price=0.0, history=[], is_occupied=False)
+    def __init__(self, property_id: str, address: str, size: float, price: float, company_name: str, zoning_type: str, buildable_area: float):
+        super().__init__(property_id, address, size, price, company_name)
         self.zoning_type = zoning_type
         self.buildable_area = buildable_area
 
 class House(Property):
-    def __init__(self, num_bedrooms: int, num_bathrooms: int):
-        super().__init__(property_id="", size=0.0, address="", price=0.0, facilities=[], history=[], is_occupied=False)
+    def __init__(self, property_id: str, address: str, size: float, price: float, company_name: str,num_bedrooms: int, num_bathrooms:int):
+        super().__init__(property_id, address, size, price, company_name)
         self.num_bedrooms = num_bedrooms
         self.num_bathrooms = num_bathrooms
         self.has_garden: bool = False
 
     def __repr__(self):
-        return f"House(name={self.name}, value={self.value}, bedrooms={self.bedrooms}, bathrooms={self.bathrooms})"
+        return f"House(bedrooms={self.num_bedrooms}, bathrooms={self.num_bathrooms})"
     
 class Apartment(Property):
-    def __init__(self, floor_number: int):
-        super().__init__(property_id="", size=0.0, address="", price=0.0, facilities=[], history=[], is_occupied=False)
+    def __init__(self, property_id: str, address: str, size: float, price: float,company_name: str,floor_number: int):
+        super().__init__(property_id, address, size, price, company_name)
         self.floor_number = floor_number
         self.has_elevator: bool = False
         self.has_balcony: bool = False
 
     def __repr__(self):
-        return f"Apartment(name={self.name}, value={self.value}, floor={self.floor})"
+        return f"Apartment(name={self.property_id}, value={self.price}, floor={self.floor_number})"
 class Shop(Property):
-    def __init__(self, business_type: str):
-        super().__init__(property_id="", size=0.0, address="", price=0.0, facilities=[], history=[], is_occupied=False)
+    def __init__(self, property_id: str, address: str, size: float, price: float,company_name: str, business_type: str):
+        super().__init__(property_id, address, size, price, company_name)
         self.business_type = business_type
         self.parking_available: bool = False
 
-    def __repr__(self):
-        return f"Shop(name={self.name}, value={self.value}, area={self.area})"
