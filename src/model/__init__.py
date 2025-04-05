@@ -6,7 +6,7 @@ class Property:
         self.size = size
         self.facilities: list[str] = []
         self.price = price
-        self.history: list[Lease] = []
+        self.history: list[LeaseAgreement] = []
         self.is_occupied: bool = False
 
     def __repr__(self):
@@ -15,7 +15,7 @@ class Property:
         return "Occupied" if self.is_occupied else "Available"
     def calculate_cost(self):
         return self.price 
-    def add_lease(self, lease: 'Lease') -> None:
+    def add_lease(self, lease: 'LeaseAgreement') -> None:
         if self.current_lease:
             self.lease_history.append(self.current_lease)
         self.current_lease = lease
@@ -110,13 +110,34 @@ class Renter(User):
     def __init__(self):
         super().__init__(user_id= "", username="")
     
-    def view_lease_details(self, lease: 'Lease'):
+    def view_lease_details(self, lease: 'LeaseAgreement'):
         return f"Lease Details: {lease}"
     def __repr__(self):
         return f"Resident(name={self.name}, age={self.age}, apartment={self.apartment})"
+    
+class Resident(User):
+    def __init__(self, resident_id: int, name: str, contact_info: str, lease_agreements: list['LeaseAgreement']):
+        super().__init__(user_id= "", username="")
+        self.resident_id = resident_id
+        self.name = name
+        self.contact_info = contact_info
+        self.lease_agreements: list[LeaseAgreement] = lease_agreements
+    
+    def get_active_lease(self):
+        return [lease for lease in self.lease_agreements if lease.is_active]
+    
+    def pay_rent(self, amount: float):
+        if self.current_lease:
+            self.current_lease.pay_rent(amount)
+        else:
+            print("No active lease found.")
 
-class Lease:
-    def __init__(self, property, resident, start_date, duration_months, monthly_rent):
+    def __repr__(self):
+        return f"Resident(name={self.name}, age={self.age}, lease={self.current_lease})"
+
+class LeaseAgreement:
+    def __init__(self,lease_id: int, property: Property, resident: Resident, start_date, duration_months, monthly_rent):
+        self.lease_id = lease_id
         self.property = property
         self.resident = resident
         self.start_date = start_date if isinstance(start_date, datetime) else datetime.strptime(start_date, '%Y-%m-%d')
@@ -125,6 +146,9 @@ class Lease:
         self.monthly_rent = monthly_rent
         self.terms = []
         self.is_active = True
+    
+    def is_active(self):
+        return self.is_active and datetime.now() < self.end_date
     
     def _calculate_end_date(self):
         year = self.start_date.year + (self.start_date.month + self.duration_months - 1) // 12
@@ -170,3 +194,4 @@ class Contract(Owner,Property):
     
     def __str__(self):
         return f"Rental Contract for {self.property} with {self.owner} ({self.management_fee}% fee, started {self.start_date.strftime('%Y-%m-%d')})"
+    
