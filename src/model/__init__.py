@@ -1,6 +1,5 @@
 from datetime import datetime
 from src.model.property import Property
-from src.model.rentalcompany import RentalCompany
 
 
 class User:
@@ -77,6 +76,33 @@ class Resident(User):
         else:
             print("No active lease found.")
 
+class RentalApplication:
+    def __init__(self, application_id: int, property: Property, applicant: Resident, status: str):
+        self.application_id = application_id
+        self.property = property
+        self.applicant = applicant
+        self.status = status
+
+    def approve(self):
+        self.status = "Approved"
+        self.property.add_lease(LeaseAgreement(1, self.property, self.resident, datetime.now(), 12, 1000))
+
+    def reject(self):
+        self.status = "Rejected"
+
+class Complaint:
+    def __init__(self, complaint_id: int, property: Property, resident: Resident, description: str, status: bool):
+        self.complaint_id = complaint_id
+        self.property = property
+        self.resident = resident
+        self.description = description
+        self.status = status
+
+    def resolve(self):
+        if self.status == False:
+            self.status = True
+            print(f"Complaint {self.complaint_id} resolved.")
+            
 
 class LeaseAgreement:
     def __init__(self, lease_id: int, property: Property, resident: Resident, start_date, duration_months,

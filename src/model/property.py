@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from src.model.payments import LeaseAgreement
+    from src.scripts.task2 import LeaseAgreement
 
 class Property:
     def __init__(self, property_id: str, address: str, size: float, price: float, company_name: str):
@@ -65,3 +65,22 @@ class Shop(Property):
         self.business_type = business_type
         self.parking_available: bool = False
 
+class UtilityProvider:
+    def __init__(self, provider_id: int, name: str, service_type: str, monthly_cost: float):
+        self.provider_id = provider_id
+        self.name = name
+        self.service_type = service_type
+        self.monthly_cost = monthly_cost
+
+    def calculate_utility_cost(self, months: int) -> float:
+        return self.monthly_cost * months
+class TaxRecord:
+    def __init__(self, tax_id: int, property: Property, year: int, amount: float):
+        self.tax_id = tax_id
+        self.property = property
+        self.year = year
+        self.amount = amount
+
+    def calculate_tax(self) -> float:
+        return self.amount
+    
