@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from src.model import LeaseAgreement, User
+from src.model.maintenance import Event
 
 class Payment:
     def __init__(self,lease: 'LeaseAgreement', amount: float, due_date: str):
@@ -14,11 +15,15 @@ class Payment:
         self.payment_date = datetime.strptime(payment_date, "%Y-%m-%d").date()
         if self.payment_date <= self.due_date:
             self.status = "Paid"
+            event = Event(f"Payment of {self.amount} for lease {self.lease} is paid on time.")
+            return event
         else:
             self.status = "Late"
+            event = Event(f"Payment of {self.amount} for lease {self.lease} is late.")
     
-    def __str__(self):
-        return f"Payment of {self.amount} for lease {self.lease} on {self.due_date} - Status: {self.status}"
+    def is_late(self) -> bool:
+        return self.status == "Late"
+    
         
 class LatePayment(Payment):
     def __init__(self, lease: 'LeaseAgreement', amount: float, due_date: str, days_late: float):
@@ -26,7 +31,7 @@ class LatePayment(Payment):
         self.days_late = days_late
         self.late_fee = self._calculate_penalty()
         self.total_amount = self.amount + self.late_fee
-        self.status = "Late"
+        self.status = self.is_late()
 
     def _calculate_penalty(self):
         base_penalty = self.amount * 0.05  # 5% of the payment amount

@@ -1,6 +1,6 @@
 from datetime import datetime
 from src.model.property import Property
-
+from src.model.maintenance import Event
 
 class User:
     def __init__(self, user_id: int, username: str, password_hash: str, role: str):
@@ -101,7 +101,7 @@ class Complaint:
     def resolve(self):
         if self.status == False:
             self.status = True
-            print(f"Complaint {self.complaint_id} resolved.")
+            return Event(opened=False, text="Complaint resolved successfully.")
             
 
 class LeaseAgreement:

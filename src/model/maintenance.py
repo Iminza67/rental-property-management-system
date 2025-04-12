@@ -42,12 +42,14 @@ class MaintenaceRequest:
     def approve_request(self):
         if self.status == "Pending":
             self.status = "Approved"
+            return Event(self.status, "Request approved successfully.")
         else:
             raise Exception("Request cannot be approved. Current status: " + self.status)
 
     def resolve_request(self):
         if self.status == "Approved":
             self.status = "Resolved"
+        return Event(self.status, "Request resolved successfully.")
 
 class Renovation:
     def __init__(self, renovation_id: int, property: property, date: date, cost: float, description: str):
