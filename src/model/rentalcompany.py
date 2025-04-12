@@ -73,7 +73,6 @@ class Navigation:
         return nearest_property
 
 
-
 class RentalAnalytics:
     def vacancy_rate(self, rental_company: RentalCompany):
         if not rental_company.properties_list:
@@ -86,6 +85,13 @@ class RentalAnalytics:
             vacancy_rate = (len(rental_company.properties_list) - occupied_properties) / len(rental_company.properties_list) * 100
             return f"Vacancy Rate: {vacancy_rate:.2f}%"
         
+    def loss_due_to_vacancy(self, rental_company: RentalCompany):
+        total_loss = 0
+        for property in rental_company.properties_list:
+            if property.get_status() == "Available":
+                total_loss += property.calculate_cost()
+        return f"Total Loss Due to Vacancy: {total_loss:.2f}"
+        
     def average_rent(self, rental_company: RentalCompany):
         if not rental_company.properties_list:
             return "No properties available for rent analysis."
@@ -96,11 +102,28 @@ class RentalAnalytics:
             average_rent = total_rent / len(rental_company.properties_list)
             return f"Average Rent: {average_rent:.2f}"
         
+    def total_revenue(self, rental_company: RentalCompany):
+        total_revenue = 0
+        for property in rental_company.properties_list:
+            total_revenue += property.calculate_cost()
+        return f"Total Revenue: {total_revenue:.2f}"
+        
     def revenue_analysis(self, rental_company: RentalCompany):
         reveue_analysis = {}
         for property in rental_company.properties_list:
             reveue_analysis[property.property_id] = property.calculate_cost()
         return reveue_analysis
+    
+    def turnover_rate(self, rental_company: RentalCompany):
+        if not rental_company.properties_list:
+            return "No properties available for turnover analysis."
+        else:
+            turnover_rate = 0
+            for property in rental_company.properties_list:
+                if property.get_status() == "Available":
+                    turnover_rate += 1
+            turnover_rate = turnover_rate / len(rental_company.properties_list) * 100
+            return f"Turnover Rate: {turnover_rate:.2f}%"
     
 class MonthlyReport:
     def __init__(self, report_id: int, month: int, year: int, vacancy_percentage: float, income: float, loss_due_to_vacancy: float):
