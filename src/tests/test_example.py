@@ -1,5 +1,3 @@
-
-
 from src.model.rentalcompany import RentalCompany
 
 def test_rental_company():
