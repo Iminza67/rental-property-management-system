@@ -1,8 +1,7 @@
 import pytest
-from datetime import datetime
 from src.model.property import Property, Land, House, Apartment, Shop, UtilityProvider, TaxRecord
 
-class DummyLease:
+class LeaseAgreement:
     def __init__(self):
         self.end_date = None
 
@@ -19,14 +18,14 @@ def test_property_initialization(base_property):
     assert base_property.calculate_cost() == 1000.0
 
 def test_add_lease_sets_occupied_status(base_property):
-    lease = DummyLease()
+    lease = LeaseAgreement()
     base_property.add_lease(lease)
     assert base_property.is_occupied is True
     assert base_property.current_lease == lease
     assert lease not in base_property.history
 
 def test_terminate_lease_moves_to_history(base_property):
-    lease = DummyLease()
+    lease = LeaseAgreement()
     base_property.add_lease(lease)
     base_property.terminate_lease()
     assert base_property.current_lease is None

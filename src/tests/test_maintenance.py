@@ -18,7 +18,7 @@ def event_log(sample_event):
 
 @pytest.fixture
 def maintenance_request(sample_property):
-    return MaintenanceRequest(request_id=1, property=sample_property, request_date=date.today(), status="Pending")
+    return MaintenanceRequest(request_id=1, property= sample_property, request_date=date.today(), status="Pending")
 
 @pytest.fixture
 def renovation(sample_property):
