@@ -16,13 +16,18 @@ def sample_property_2():
 @pytest.fixture
 def rental_company(sample_property_1, sample_property_2):
     company = RentalCompany("Olivia Homes")
-    company.add_property(sample_property_1)
+    company.add_property(sample_property_1)  # property added in through function
     company.add_property(sample_property_2)
     return company
 
-def test_add_and_remove_property(rental_company, sample_property_1):
+
+def test_remove_property(rental_company, sample_property_1, sample_property_2):
     rental_company.remove_property(sample_property_1)
     assert sample_property_1 not in rental_company.properties_list
+
+def test_get_income(rental_company):
+    assert rental_company.get_income() == 0
+
 
 def test_analyze_occupancy(rental_company, sample_property_1):
     assert rental_company.analyze_occupancy() == "Occupancy Rate: 0.00%"

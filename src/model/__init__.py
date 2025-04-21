@@ -161,9 +161,9 @@ class RentalContract:
         return self.start_date <= datetime.now() <= self.end_date
 
     def calculate_commission(self):
-        if self.is_active():
-            return self.property.price * (self.commission_fee / 100)
-        return 0
+        commission_percentage= self.commission_fee / 100
+        return self.property.price * commission_percentage
+
 
     def terminate(self):
         self._is_active = False
