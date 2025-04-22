@@ -31,28 +31,21 @@ pip install pytest
 ## Project Structure
 
 ```
-rental-property-management/
+rental-property-management-system/
 │
 ├── src/                     # Source code
 │   ├── __init__.py           # Initialization file
-│   ├── rental_system.py      # Main classes (RentalCompany, Property, LeaseAgreement, etc.)
+│   ├── rentalcompany.py      # Main classes (RentalCompany, Property, LeaseAgreement, etc.)
 │   ├── maintenance.py        # MaintenanceRequest and Renovation classes
-│   ├── analytics.py          # RentalAnalytics and MonthlyReport classes
-│   ├── search.py             # PropertySearch class
-│   ├── event_log.py          # EventLog and Notification classes
-│   └── review_complaint.py   # Review and Complaint classes
+│   ├── property.py           # Property implementation  class
+
 │
 ├── tests/                    # Test cases for all functionalities
-│   ├── test_rental_system.py # Tests for rental system functionality
-│   ├── test_payment.py       # Tests for payment-related features
+│   ├── test_rentalcompany.py # Tests for rental system functionality
 │   ├── test_maintenance.py   # Tests for maintenance and renovation features
-│   ├── test_analytics.py     # Tests for analytics and report generation
-│   ├── test_search.py        # Tests for property search functionality
+│   ├── test_property.py      # Tests for property implementation  functionality
 │   ├── test_event_log.py     # Tests for event logging and notifications
 │   └── test_review_complaint.py # Tests for reviews and complaints
-│
-├── scripts/                  # Example scripts to demonstrate system usage
-│   └── rental_management_demo.py # Sample script simulating the rental management workflow
 │
 └── README.md                 # Project documentation
 ```
@@ -62,13 +55,13 @@ rental-property-management/
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Iminza67/rental-property-management.git
+git clone https://github.com/Iminza67/rental-property-management-system.git
 ```
 
 2. Navigate to the project directory:
 
 ```bash
-cd rental-property-management
+cd rental-property-management-system
 ```
 
 3. Install any necessary dependencies:
