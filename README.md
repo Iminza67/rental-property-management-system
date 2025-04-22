@@ -1,109 +1,153 @@
-# Programming II - Assignment 1
 
-**Exercise**: Object-Oriented Programming with Python  
+# Rental Property Management System
 
-**Due Date**: 21.04.2025, 23:59:59 (CEST)
+## Overview
 
-You are hired by a rental company to develop a system that manages rental properties. The company manages properties such as houses, apartments, shops, and land on behalf of property owners. The system should: 
+This project is a Python-based implementation of a **Rental Property Management System** for a rental company. The system tracks rental properties, rental contracts, payments, residents, and various maintenance requests. It provides analytics, search functionalities, and notifications to improve the overall management of rental properties.
 
-- Keep track of rental properties, their attributes (address, size, price, facilities, history, etc.), and their occupancy status (occupied or vacant). 
-- Track rental contracts between property owners and the rental company. 
-- Monitor residents, their leases, payments, and overdue payments. 
-- Perform analytics, such as occupancy rates, revenue generation, overdue payments, and rental turnover. 
+The system was built using Object-Oriented Programming (OOP) principles to ensure scalability, reusability, and efficient management of rental properties.
 
-You are given a UML class diagram as a reference (see [uml-class-diagram.png](uml-class-diagram.png)), implement the classes with correct attributes, methods, and relationships. Use appropriate inheritance to avoid code duplication. Create test cases to ensure functionalities work as expected. Write Python scripts that demonstrate searching properties, assigning residents, and generating reports. 
+## Features
 
-> [!CAUTION]
-> The UML class diagram is mostly complete, but some links and attributes are missing (e.g. between `Renter` and `Resident`)
+- **Basic Class Structure**: Defines rental properties, leases, and manages residents and payments.
+- **Payment System**: Tracks rent payments, handles late payments with penalties, and generates transaction histories.
+- **Property Maintenance & Renovations**: Manages maintenance requests and renovation history for properties.
+- **Analytics & Reports**: Generates vacancy rates, rental income, turnover rates, and financial loss from vacancies.
+- **Property Search**: Allows users to search for properties based on location, price, and availability.
+- **Event Logging & Notifications**: Tracks system events (lease signed, rent paid) and sends notifications to renters (e.g., late payments).
+- **Reviews & Complaints**: Enables residents to submit reviews and complaints about properties.
 
-## Deliverables
-By the end of the project, students should submit a GitHub Repository containing: 
-1. Python scripts for all implemented classes and functionality. 
-2. Test cases demonstrating correct behavior. 
-3. A sample execution script that simulates a full rental management workflow. 
+## Requirements
 
-> [!CAUTION]
-> Learn to use Github and commit + push frequently! "All my data is lost because my computer broke" is not acceptable.
+- Python 3.x
+- `pytest` for testing
 
-## Tasks
+You can install `pytest` using pip:
 
-[![The full UML class diagram](uml-class-diagram.png)](uml-class-diagram.png)
+```bash
+pip install pytest
+```
 
-### 🛠 Task 1: Basic Class Structure  
-**Define the Class Structure based on the UML diagram (The given UML class diagram must be entirely implemented, additional classes are permitted)**
-- Implement all the classes, with the correct relationships between them.  
-- Implement the basic functionality, demonstrating lease management, including **creating, renewing, and terminating** leases. 
+## Project Structure
 
-**Deliverables**: Python files with class definitions and inheritance properly structured. 
+```
+rental-property-management/
+│
+├── src/                     # Source code
+│   ├── __init__.py           # Initialization file
+│   ├── rental_system.py      # Main classes (RentalCompany, Property, LeaseAgreement, etc.)
+│   ├── maintenance.py        # MaintenanceRequest and Renovation classes
+│   ├── analytics.py          # RentalAnalytics and MonthlyReport classes
+│   ├── search.py             # PropertySearch class
+│   ├── event_log.py          # EventLog and Notification classes
+│   └── review_complaint.py   # Review and Complaint classes
+│
+├── tests/                    # Test cases for all functionalities
+│   ├── test_rental_system.py # Tests for rental system functionality
+│   ├── test_payment.py       # Tests for payment-related features
+│   ├── test_maintenance.py   # Tests for maintenance and renovation features
+│   ├── test_analytics.py     # Tests for analytics and report generation
+│   ├── test_search.py        # Tests for property search functionality
+│   ├── test_event_log.py     # Tests for event logging and notifications
+│   └── test_review_complaint.py # Tests for reviews and complaints
+│
+├── scripts/                  # Example scripts to demonstrate system usage
+│   └── rental_management_demo.py # Sample script simulating the rental management workflow
+│
+└── README.md                 # Project documentation
+```
 
+## Setup
 
-### 🛠 Task 2: Payment System 
+1. Clone the repository:
 
-- Implement Payment class to track **rent payments**, including amount, date, and status.  
-- Create LatePayment (inherits from Payment) to handle **overdue payments with penalties**.  
-- Implement a TransactionHistory class to **store all payment transactions**.  
-- Write a method to check **unpaid rent** and notify residents. 
+```bash
+git clone https://github.com/Iminza67/rental-property-management.git
+```
 
-**Deliverables**: A script that processes rent payments, identifies late payments, calculates total revenue. 
+2. Navigate to the project directory:
 
+```bash
+cd rental-property-management
+```
 
-### 🛠 Task 3: Property Maintenance & Renovations 
-- Create a MaintenanceRequest class to handle repair requests.  
-- Implement a Renovation class to track renovation history and costs.  
-- Allow a property manager to approve or reject maintenance requests. 
+3. Install any necessary dependencies:
 
-**Deliverables**: A maintenance management script that handles submitting and resolving requests. 
+```bash
+pip install -r requirements.txt
+```
 
+4. Run the project demo:
 
-### 🛠 Task 4: Analytics & Reports 
-- Write methods to analyze data and generate reports: 
-- Calculate the percentage of vacant properties (RentalAnalytics.vacancy_rate()). 
-- Calculate total rental income per month (RentalAnalytics.average_rent()). 
-- Identify the number of rental turnovers per month (RentalAnalytics.tenant_turnover_rate()). 
-- Calculate the financial loss from vacant properties (RentalAnalytics.loss_due_to_vacancy()). 
-- Generate a monthly report (MonthlyReport.generate_report()). 
+```bash
+python scripts/rental_management_demo.py
+```
 
-**Deliverables**: A script that prints analytics reports for a given month/year. 
+5. Run tests to ensure functionality:
 
-
-### 🛠 Task 5: Searching & Navigation 
-- Implement PropertySearch with methods: search_by_location(), search_by_price(), search_by_availability(). 
-- Implement Navigation to help find the nearest available property. 
-
-**Deliverables**: A search function where users can find available properties based on criteria. 
-
-### 🛠 Task 6: Event Logging & Notifications 
-- Implement an EventLog to record system events (e.g., lease signed, rent paid). 
-- Implement Notification to send messages for lease expirations, late payments, etc. 
-
-**Deliverables**: A script that sends notifications to renters about late payments. 
-
-
-### 🛠 Task 7: Reviews & Complaints System 
-- Create a Review class to allow residents to rate properties. 
-- Implement a Complaint system where renters can file complaints. 
-
-**Deliverables**: A review and complaint submission system. 
-
-
----
-## Technical Hints
-
-
-### Python Version
-You will (probably) not need any special features related to specific Python versions to complete this exercise.
-The sample code provided by us was developed in Python v3.8 for general compatibility.
-Feel free, however, to use a newer version (e.g. 3.9, 3.10, 3.11) to benefit from new functionality.
-
-
-###  Testing with [pytest](https://docs.pytest.org/)
-
-You will need to install pytest, to execute your code.
-To trigger the automated tests, execute
 ```bash
 pytest
 ```
 
-Note, that your `print` statements will not be visible, 
-unless you add the `-s` argument to the call, i.e. `pytest -s`.
+## Usage
 
+### 1. **Rental System Management**
+
+The system allows the creation, renewal, and termination of leases, tracking rent payments, and managing overdue payments. Properties can be added with attributes such as address, size, price, and facilities.
+
+### 2. **Payment System**
+
+Rent payments are tracked, with late payments handled separately, including penalties. A `TransactionHistory` class stores all payment transactions.
+
+### 3. **Property Maintenance**
+
+Property managers can approve or reject maintenance requests. The system tracks renovation history and costs for each property.
+
+### 4. **Analytics & Reports**
+
+The system generates various reports, including vacancy rates, total rental income per month, tenant turnover rates, and loss due to vacancy.
+
+### 5. **Search Functionality**
+
+Users can search for properties by location, price, and availability. The system also helps navigate to the nearest available property.
+
+### 6. **Event Logging & Notifications**
+
+Important system events (e.g., lease signing, rent payment) are logged, and notifications are sent to renters for lease expirations or late payments.
+
+### 7. **Reviews & Complaints**
+
+Residents can leave reviews and file complaints about the properties they are renting. This feedback is useful for property managers.
+
+## Testing
+
+This project uses `pytest` to automate tests for various functionalities. To run the tests, execute the following command:
+
+```bash
+pytest
+```
+
+Tests include:
+
+- Lease management functionalities
+- Payment system (including overdue payments)
+- Property maintenance and renovation handling
+- Analytics and report generation
+- Property search
+- Event logging and notifications
+- Review and complaint submission
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Inspiration from Object-Oriented Design principles for developing scalable systems.
+
+---
+
+Feel free to modify and improve the system to meet additional requirements or handle edge cases.
+
+Happy coding! 🎉
+```
